@@ -6,6 +6,9 @@ from PyQt5.QtCore import pyqtSignal, QObject, Qt
 from PyQt5.QtGui import QFont, QColor
 
 class TextBoxWidget(QWidget):
+    """
+    This a class for TextBox group widget.
+    """
     def __init__(self, title):
         super().__init__()
         layout = QVBoxLayout()
@@ -52,7 +55,19 @@ class TextBoxWidget(QWidget):
         self.setLayout(layout)
 
 def WidgetSetStyle(widget, r, g, b):
-        # Define colors using QColor
+    """
+    This function set style sheet for widgets.
+    Currently supports only for button and Groupbox
+    
+    Parameters:
+    widget (Qwidget): widget class.
+    r (int): Red pixel level.
+    g (int): Green pixel level.
+    b (int): Blue pixel level.
+    Returns:
+    None
+    """
+    # Define colors using QColor
     color_start = QColor(255, 255, 255)  # White
     color_end = QColor( r,g,b)    # Light Gray
 
@@ -95,9 +110,17 @@ def WidgetSetStyle(widget, r, g, b):
     widget.setStyleSheet(widget_style)
 
 def SetupUI(view):
+    """
+    This function set style sheet for widgets.
+    Currently supports only for button and Groupbox
+    
+    Parameters:
+    view: UI view class.
+    Returns:
+    None
+    """
     # CAN Channel label and combo box
     group_box = QGroupBox("CAN settings", view)
-    # group_box.setStyleSheet("background-color: lightblue;")
     group_box.setGeometry(50, 50, 350, 480)  # Position and size of the group box
 
     font = QFont("Arial", 12, QFont.Bold)  # Font family, size, and bold
@@ -206,22 +229,7 @@ def SetupUI(view):
     view.Settings7.move(650, 50)
     # Create a stacked widget to hold the content windows
     view.stacked_widget = QStackedWidget(Params_group_box)
-
-    # view.config1_box = QGroupBox(Params_group_box)
-    # view.config1_box.setGeometry(50, 100, 700, 350)
-    
-    # Create some windows to be displayed
-    view.window1 = QLabel("Settings 1")
-    # view.window1.setFixedSize(300, 50)
-    # view.c1_textbox = QLineEdit(view.config1_box)
-    view.window2 = QLabel("Settings 2")
-    # view.window2.setFixedSize(300, 50)
-    view.window3 = QLabel("Settings 3")
-    # view.window3.setFixedSize(300, 50)
-    
-    # Add windows to stacked_widget
     view.text_box_widget = []
-    # print(view.text_box_widget[0])  # Output: value_1
 
     for i in range(3):
       view.text_box_widget.append(TextBoxWidget(f"Page{i + 1}"))
@@ -229,8 +237,6 @@ def SetupUI(view):
     view.stacked_widget.move(50, 200)
     
     # Add the stacked widget to the group box layout (content area)
-    # Params_group_box_layout.addWidget(view.stacked_widget)
-    # Create the log box (QTextEdit)
     view.log_box = QTextEdit(view)
     view.log_box.setGeometry(50, 550, 1200, 180)
     view.log_box.setReadOnly(True)  # Make the log box read-only so the user can't modify it
@@ -239,6 +245,9 @@ def SetupUI(view):
 
 # View
 class CANTestAppUIView(QMainWindow):
+    """
+    This class is for the UI view
+    """
     def __init__(self):
         super().__init__()
         # Define colors using QColor
@@ -251,7 +260,7 @@ class CANTestAppUIView(QMainWindow):
         self.setWindowTitle("CAN TestTool")
         self.resize(1280, 768)  # Set the window size
         # self.resize(1920, 1080)
-            # Apply a glossy background using QSS with QColor
+        # Apply a glossy background using QSS with QColor
         self.setStyleSheet(f"""
             QMainWindow {{
                 border: 2px solid #4CAF50;;
