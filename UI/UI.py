@@ -250,6 +250,7 @@ class CANTestAppUIView(QMainWindow):
         end_bg_color_hex = bg_color_end.name()
         self.setWindowTitle("CAN TestTool")
         self.resize(1280, 768)  # Set the window size
+        # self.resize(1920, 1080)
             # Apply a glossy background using QSS with QColor
         self.setStyleSheet(f"""
             QMainWindow {{
