@@ -1,4 +1,5 @@
 from PyQt5.QtCore import pyqtSignal, QObject, Qt
+from CANHdlr import CANScript
 
 # Model
 class CANTestAppUIModel(QObject):

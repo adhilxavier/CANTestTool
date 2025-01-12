@@ -27,12 +27,6 @@ def WidgetSetStyle(widget, r, g, b):
                 stop: 0 {start_color_hex}, stop: 1 {end_color_hex}
             );
         }}
-        QPushButton::title {{
-            subcontrol-origin: margin;
-            subcontrol-position: top center;
-            padding: 0 3px;
-            color: black;
-        }}
         """
     elif isinstance(widget, QComboBox):
         print("Passed widget is QComboBox")
@@ -49,12 +43,6 @@ def WidgetSetStyle(widget, r, g, b):
                 stop: 0 {start_color_hex}, stop: 1 {end_color_hex}
             );
         }}
-        QGroupBox::title {{
-            subcontrol-origin: margin;
-            subcontrol-position: top center;
-            padding: 0 3px;
-            color: black;
-        }}
         """
     else:
         print("Unknown widget type")
@@ -63,7 +51,7 @@ def WidgetSetStyle(widget, r, g, b):
 
 def SetupUI(view):
     # CAN Channel label and combo box
-    group_box = QGroupBox("CAN Settings", view)
+    group_box = QGroupBox(view)
     # group_box.setStyleSheet("background-color: lightblue;")
     group_box.setGeometry(50, 50, 350, 680)  # Position and size of the group box
 
@@ -126,44 +114,31 @@ def SetupUI(view):
     WidgetSetStyle(view.stop, 255, 0, 0)
   
     # CAN Channel label and combo box
-    Params_group_box = QGroupBox("Params Config", view)
+    Params_group_box = QGroupBox(view)
     # group_box.setStyleSheet("background-color: lightblue;")
-    Params_group_box.setGeometry(450, 50, 800, 680)  # Position and size of the group box
+    Params_group_box.setGeometry(450, 50, 800, 380)  # Position and size of the group box
     font = QFont("Arial", 12, QFont.Bold)  # Font family, size, and bold
     Params_group_box.setFont(font)
     # Apply a glossy background using QSS with QColor
     WidgetSetStyle(Params_group_box, 204,204,204)
 
-    # Create a QVBoxLayout for the entire GroupBox
-    Params_group_box_layout = QVBoxLayout(Params_group_box)
-    # Create a horizontal layout for the labels inside the group box
-    settings_layout = QHBoxLayout(Params_group_box)
-    # Create some labels that will act as buttons for navigation
-    Settings1 = QLabel("Settings 1")
-    Settings1.setStyleSheet("padding: 10px; background-color: lightgray; border-radius: 5px;")
-    Settings1.setAlignment(Qt.AlignCenter)
-    # Settings1.mousePressEvent = self.show_window1  # Connect the click event
+    view.Settings1 = QLabel(Params_group_box)
+    view.Settings1.setText("Settings 1")
+    view.Settings1.setStyleSheet("padding: 10px; background-color: lightgray; border-radius: 5px;")
+    view.Settings1.move(50, 50)
     
-    Settings2 = QLabel("Settings 2")
-    Settings2.setStyleSheet("padding: 10px; background-color: lightgray; border-radius: 5px;")
-    Settings2.setAlignment(Qt.AlignCenter)
-    # Settings2.mousePressEvent = self.show_window2  # Connect the click event
+    view.Settings2 = QLabel(Params_group_box)
+    view.Settings2.setText("Settings 2")
+    view.Settings2.setStyleSheet("padding: 10px; background-color: lightgray; border-radius: 5px;")
+    view.Settings2.move(350, 50)
     
-    Settings3 = QLabel("Settings 3")
-    Settings3.setStyleSheet("padding: 10px; background-color: lightgray; border-radius: 5px;")
-    Settings3.setAlignment(Qt.AlignCenter)
-    # Settings3.mousePressEvent = self.show_window3  # Connect the click event
-    
-    # Add labels to the settings_layout inside the group box
-    settings_layout.addWidget(Settings1)
-    settings_layout.addWidget(Settings2)
-    settings_layout.addWidget(Settings3)
-    
-    # Add label layout to the group box layout
-    Params_group_box_layout.addLayout(settings_layout)
+    view.Settings3 = QLabel(Params_group_box)
+    view.Settings3.setText("Settings 3")
+    view.Settings3.setStyleSheet("padding: 10px; background-color: lightgray; border-radius: 5px;")
+    view.Settings3.move(650, 50)
     
     # Create a stacked widget to hold the content windows
-    view.stacked_widget = QStackedWidget()
+    view.stacked_widget = QStackedWidget(Params_group_box)
     
     # Create some windows to be displayed
     view.window1 = QLabel("This is the content for Settings 1")
@@ -174,16 +149,15 @@ def SetupUI(view):
     view.stacked_widget.addWidget(view.window1)
     view.stacked_widget.addWidget(view.window2)
     view.stacked_widget.addWidget(view.window3)
+    view.stacked_widget.move(50, 200)
     
     # Add the stacked widget to the group box layout (content area)
-    Params_group_box_layout.addWidget(view.stacked_widget)
+    # Params_group_box_layout.addWidget(view.stacked_widget)
     # Create the log box (QTextEdit)
-    view.log_box = QTextEdit()
+    view.log_box = QTextEdit(view)
+    view.log_box.setGeometry(450, 450, 800, 280)
     view.log_box.setReadOnly(True)  # Make the log box read-only so the user can't modify it
     view.log_box.setStyleSheet("border: 1px solid gray; background-color: #f0f0f0; padding: 10px;")
-    
-    # Add the log box to the group box layout
-    Params_group_box_layout.addWidget(view.log_box)
     
 
 # View
@@ -217,5 +191,5 @@ class CANTestAppUIView(QMainWindow):
                 color: black;
             }}
         """)
-        # self.setStyleSheet("background-color: lightyellow;") 
+
         SetupUI(self)

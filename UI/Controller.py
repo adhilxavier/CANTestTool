@@ -7,11 +7,36 @@ class CANTestAppUIController:
     def __init__(self, model, view):
         self.model = model
         self.view = view
+        self.view.submit.clicked.connect(self.SubmitSettings)
+        self.view.send.clicked.connect(self.SendCANdata)
+        self.view.stop.clicked.connect(self.StopCANpackets)
+        self.view.Settings1.mousePressEvent = self.ShowWindow1
+        self.view.Settings2.mousePressEvent = self.ShowWindow2
+        self.view.Settings3.mousePressEvent = self.ShowWindow3
 
-    def update_view(self, count):
-        self.tmp = 0
-      #   self.view.
-      #   self.view.label.setText(str(count))
+    def SubmitSettings(self):
+        self.AppendLog("Settings updating")
+
+    def SendCANdata(self):
+        self.AppendLog("Send Data")
+
+    def StopCANpackets(self):
+        self.AppendLog("Stop Data")
+    
+    def ShowWindow1(self, event):
+        self.view.stacked_widget.setCurrentWidget(self.view.window1)
+        self.AppendLog("Settings 1 selected")
+
+    def ShowWindow2(self, event):
+        self.view.stacked_widget.setCurrentWidget(self.view.window2)
+        self.AppendLog("Settings 2 selected")
+
+    def ShowWindow3(self, event):
+        self.view.stacked_widget.setCurrentWidget(self.view.window3)
+        self.AppendLog("Settings 3 selected")
+    
+    def AppendLog(self, message):
+        self.view.log_box.append(message)
 
 # Main Application
 def run_ui():
