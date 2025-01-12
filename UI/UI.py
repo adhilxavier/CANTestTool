@@ -1,10 +1,55 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton,\
                             QLabel, QComboBox, QStackedWidget, QGroupBox,\
-                            QHBoxLayout, QTextEdit, QVBoxLayout
+                            QHBoxLayout, QTextEdit, QVBoxLayout, QLineEdit, QWidget, QGridLayout
 
 from PyQt5.QtCore import pyqtSignal, QObject, Qt
 from PyQt5.QtGui import QFont, QColor
 
+class TextBoxWidget(QWidget):
+    def __init__(self, title):
+        super().__init__()
+        layout = QVBoxLayout()
+        
+        # Add a title label
+        title_label = QLabel(title)
+        title_label.setStyleSheet("font-weight: bold; font-size: 14px;")
+        layout.addWidget(title_label)
+        
+        # Create a grid layout for text boxes and labels
+        grid_layout = QGridLayout()
+        page1_row1 = ["System state", "Target speed", "Feedback speed"]
+        page1_row2 = ["Speed Command Source", "Target torque", "Feedback speed"]
+        page1_label = [page1_row1, page1_row2]
+        page2_row1 = ["System", "Target", "Feedback"]
+        page2_row2 = ["Speed Command", "Torque", "Speed"]
+        page2_label = [page2_row1, page2_row2]
+        page3_row1 = ["Module state", "Running mode", "Module Temperatue"]
+        page3_row2 = ["Resolver angle", "Bus current", "Bus voltage"]
+        page3_label = [page3_row1, page3_row2]
+        page_label = [page1_label, page2_label, page3_label]
+
+        if title == "Page1":
+          item = 0
+        elif title == "Page2":
+          item = 1
+        elif title == "Page3":
+          item = 2
+        
+        # Add labels and text boxes in 2 rows and 3 columns
+        for row in range(2):
+            for col in range(3):
+                label = QLabel(page_label[item][row][col])
+                text_box = QLineEdit()
+                grid_layout.addWidget(label, row * 2, col)  # Place the label
+                grid_layout.addWidget(text_box, row * 2 + 1, col)  # Place the textbox below the label
+
+        # Adjust spacing
+        grid_layout.setHorizontalSpacing(110)
+        grid_layout.setVerticalSpacing(30)
+        grid_layout.setContentsMargins(10, 10, 10, 10)  # Left, Top, Right, Bottom
+        
+        layout.addLayout(grid_layout)
+        self.setLayout(layout)
 
 def WidgetSetStyle(widget, r, g, b):
         # Define colors using QColor
@@ -51,9 +96,9 @@ def WidgetSetStyle(widget, r, g, b):
 
 def SetupUI(view):
     # CAN Channel label and combo box
-    group_box = QGroupBox(view)
+    group_box = QGroupBox("CAN settings", view)
     # group_box.setStyleSheet("background-color: lightblue;")
-    group_box.setGeometry(50, 50, 350, 680)  # Position and size of the group box
+    group_box.setGeometry(50, 50, 350, 480)  # Position and size of the group box
 
     font = QFont("Arial", 12, QFont.Bold)  # Font family, size, and bold
     group_box.setFont(font)
@@ -96,27 +141,30 @@ def SetupUI(view):
 
     #Buttons
     view.submit = QPushButton(group_box)
+    view.submit.setFixedSize(100, 50)
     view.submit.setText("SUBMIT")
     view.submit.move(180, 160)
     view.submit.setMinimumWidth(6 * 15)
     WidgetSetStyle(view.submit, 255, 255, 0)
 
     view.send = QPushButton(group_box)
+    view.send.setFixedSize(100, 50)
     view.send.setText("SEND")
     view.send.move(110, 210)
     view.send.setMinimumWidth(6 * 15)
     WidgetSetStyle(view.send, 255, 0, 0)
 
     view.stop = QPushButton(group_box)
+    view.stop.setFixedSize(100, 50)
     view.stop.setText("STOP")
     view.stop.move(110, 250)
     view.stop.setMinimumWidth(6 * 15)
     WidgetSetStyle(view.stop, 255, 0, 0)
   
     # CAN Channel label and combo box
-    Params_group_box = QGroupBox(view)
+    Params_group_box = QGroupBox("Parameter Settings", view)
     # group_box.setStyleSheet("background-color: lightblue;")
-    Params_group_box.setGeometry(450, 50, 800, 380)  # Position and size of the group box
+    Params_group_box.setGeometry(450, 50, 800, 480)  # Position and size of the group box
     font = QFont("Arial", 12, QFont.Bold)  # Font family, size, and bold
     Params_group_box.setFont(font)
     # Apply a glossy background using QSS with QColor
@@ -124,40 +172,69 @@ def SetupUI(view):
 
     view.Settings1 = QLabel(Params_group_box)
     view.Settings1.setText("Settings 1")
-    view.Settings1.setStyleSheet("padding: 10px; background-color: lightgray; border-radius: 5px;")
+    view.Settings1.setStyleSheet("padding: 10px; background-color: lightgreen; border-radius: 5px;")
     view.Settings1.move(50, 50)
     
     view.Settings2 = QLabel(Params_group_box)
     view.Settings2.setText("Settings 2")
-    view.Settings2.setStyleSheet("padding: 10px; background-color: lightgray; border-radius: 5px;")
-    view.Settings2.move(350, 50)
+    view.Settings2.setStyleSheet("padding: 10px; background-color: lightgreen; border-radius: 5px;")
+    view.Settings2.move(150, 50)
     
     view.Settings3 = QLabel(Params_group_box)
     view.Settings3.setText("Settings 3")
-    view.Settings3.setStyleSheet("padding: 10px; background-color: lightgray; border-radius: 5px;")
-    view.Settings3.move(650, 50)
+    view.Settings3.setStyleSheet("padding: 10px; background-color: lightgreen; border-radius: 5px;")
+    view.Settings3.move(250, 50)
+
+    view.Settings4 = QLabel(Params_group_box)
+    view.Settings4.setText("Settings 4")
+    view.Settings4.setStyleSheet("padding: 10px; background-color: lightgreen; border-radius: 5px;")
+    view.Settings4.move(350, 50)
     
+    view.Settings5 = QLabel(Params_group_box)
+    view.Settings5.setText("Settings 5")
+    view.Settings5.setStyleSheet("padding: 10px; background-color: lightgreen; border-radius: 5px;")
+    view.Settings5.move(450, 50)
+
+    view.Settings6 = QLabel(Params_group_box)
+    view.Settings6.setText("Settings 6")
+    view.Settings6.setStyleSheet("padding: 10px; background-color: lightgreen; border-radius: 5px;")
+    view.Settings6.move(550, 50)
+
+    view.Settings7 = QLabel(Params_group_box)
+    view.Settings7.setText("Settings 7")
+    view.Settings7.setStyleSheet("padding: 10px; background-color: lightgreen; border-radius: 5px;")
+    view.Settings7.move(650, 50)
     # Create a stacked widget to hold the content windows
     view.stacked_widget = QStackedWidget(Params_group_box)
+
+    # view.config1_box = QGroupBox(Params_group_box)
+    # view.config1_box.setGeometry(50, 100, 700, 350)
     
     # Create some windows to be displayed
-    view.window1 = QLabel("This is the content for Settings 1")
-    view.window2 = QLabel("This is the content for Settings 2")
-    view.window3 = QLabel("This is the content for Settings 3")
+    view.window1 = QLabel("Settings 1")
+    # view.window1.setFixedSize(300, 50)
+    # view.c1_textbox = QLineEdit(view.config1_box)
+    view.window2 = QLabel("Settings 2")
+    # view.window2.setFixedSize(300, 50)
+    view.window3 = QLabel("Settings 3")
+    # view.window3.setFixedSize(300, 50)
     
     # Add windows to stacked_widget
-    view.stacked_widget.addWidget(view.window1)
-    view.stacked_widget.addWidget(view.window2)
-    view.stacked_widget.addWidget(view.window3)
+    view.text_box_widget = []
+    # print(view.text_box_widget[0])  # Output: value_1
+
+    for i in range(3):
+      view.text_box_widget.append(TextBoxWidget(f"Page{i + 1}"))
+      view.stacked_widget.addWidget(view.text_box_widget[i])
     view.stacked_widget.move(50, 200)
     
     # Add the stacked widget to the group box layout (content area)
     # Params_group_box_layout.addWidget(view.stacked_widget)
     # Create the log box (QTextEdit)
     view.log_box = QTextEdit(view)
-    view.log_box.setGeometry(450, 450, 800, 280)
+    view.log_box.setGeometry(50, 550, 1200, 180)
     view.log_box.setReadOnly(True)  # Make the log box read-only so the user can't modify it
-    view.log_box.setStyleSheet("border: 1px solid gray; background-color: #f0f0f0; padding: 10px;")
+    view.log_box.setStyleSheet("border: 1px solid gray; background-color: #ffffff; padding: 10px;")
     
 
 # View
@@ -176,7 +253,7 @@ class CANTestAppUIView(QMainWindow):
             # Apply a glossy background using QSS with QColor
         self.setStyleSheet(f"""
             QMainWindow {{
-                border: 2px solid gray;
+                border: 2px solid #4CAF50;;
                 border-radius: 10px;
                 margin-top: 10px;
                 background: qlineargradient(

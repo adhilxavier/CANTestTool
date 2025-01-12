@@ -24,15 +24,15 @@ class CANTestAppUIController:
         self.AppendLog("Stop Data")
     
     def ShowWindow1(self, event):
-        self.view.stacked_widget.setCurrentWidget(self.view.window1)
+        self.view.stacked_widget.setCurrentWidget(self.view.text_box_widget[0])
         self.AppendLog("Settings 1 selected")
 
     def ShowWindow2(self, event):
-        self.view.stacked_widget.setCurrentWidget(self.view.window2)
+        self.view.stacked_widget.setCurrentWidget(self.view.text_box_widget[1])
         self.AppendLog("Settings 2 selected")
 
     def ShowWindow3(self, event):
-        self.view.stacked_widget.setCurrentWidget(self.view.window3)
+        self.view.stacked_widget.setCurrentWidget(self.view.text_box_widget[2])
         self.AppendLog("Settings 3 selected")
     
     def AppendLog(self, message):
